@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-Firestore firestore = Firestore.instance;
+FirebaseFirestore firestore = FirebaseFirestore.instance;
 class House {
+  String agentName;
   String houseId;
   String imageUrl;
   String houseDescription;
@@ -11,10 +12,11 @@ class House {
   bool isSold;
   String agentNumber;
   String addedAt;
-  House({this.houseId, this.imageUrl, this.houseDescription, this.furtherDescription, this.location, this.price, this.isSold, this.agentNumber, this.addedAt});
+  House({this.agentName,this.houseId, this.imageUrl, this.houseDescription, this.furtherDescription, this.location, this.price, this.isSold, this.agentNumber, this.addedAt});
   factory House.fromFirestore(DocumentSnapshot doc){
-      var data = doc.data;
+      var data = doc.data();
       return House(
+        agentName: data['agentName'],
         houseId: data['HouseId'],
           imageUrl: data['imageUrl'],
           houseDescription: data['houseDescription'],
