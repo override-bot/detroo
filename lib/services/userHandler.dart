@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/usermodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,11 +15,13 @@ Future<UserExtra> getUser() async{
   }
 }
 Future uploadExtraDetail(username, userPhone, displayPicture) async {
+          List<int> displayPictureBytes = displayPicture.readAsBytesSync();
+          String displayPictureB64 = base64Encode(displayPictureBytes);
     return FirebaseFirestore.instance.collection('users').doc(user.uid).set({
           "username": username,
           "userEmail": user.email,
           "userPhone": userPhone,
-          "displayPicture": displayPicture,
-          
+          "displayPicture": displayPictureB64,
+
     });
 }

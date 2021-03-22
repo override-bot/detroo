@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/housemodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,10 +34,11 @@ Future uploadHouse(imageUrl, houseDescription, furtherDescription, location, pri
                         }
                         String agentName = data()['username'];
                         String agentNumber = data()['userPhone'];
-
+       List<int> imageBytes = imageUrl.readAsBytesSync();
+          String imageB64 = base64Encode(imageBytes);
                         return FirebaseFirestore.instance.collection('houses').add({
                           "agentName": agentName,
-                          "imageUrl": imageUrl,
+                          "imageUrl": imageB64,
                           "houseDescription": houseDescription,
                           "furtherDescription": furtherDescription,
                           "location": location,
