@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:detroo/screens/housedetails.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../services/houseHandler.dart';
 
-import '../models/housemodel.dart';
 import 'package:flutter/material.dart';
 
 class AllHouses extends StatefulWidget{
@@ -18,7 +17,7 @@ class _AllHousesState extends State<AllHouses>{
    return Scaffold(
      appBar: AppBar(
        elevation:1.0,
-       title: "Property List".text.bold.size(32).purple600.make(),
+       title: "Property List".text.bold.size(32).purple800.make(),
         actions: [
             IconButton(icon: Icon(Icons.search,color: Colors.purple[400]), onPressed:null)]
     ),
@@ -36,7 +35,11 @@ return Container(
   padding: EdgeInsets.only(top:10),
   color: Colors.grey[200],
                  width: 450,
-                  child:new ListTile(onTap: null,
+                  child:new ListTile(onTap:(){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => HouseDetails(
+                      postId:document.id
+                    )));
+                  },
                   leading: Container(
                     width: 150,
             height: 150,
