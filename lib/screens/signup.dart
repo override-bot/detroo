@@ -1,8 +1,12 @@
+import 'package:detroo/screens/extradetails.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+// ignore: unused_import
 import '../main.dart';
 import '../services/authHandler.dart';
 import 'package:flutter/material.dart';
+
+import 'home.dart';
 
 
 
@@ -63,7 +67,7 @@ Container(
   child: MaterialButton(
     onPressed: () async{
         authHandler.signUp(_emailField.text, _passwordField.text).then((user){
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (route) => false).catchError((e) => setState((){
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ExtraDetails()), (route) => false).catchError((e) => setState((){
             error = e;
           }));
         } );
@@ -80,7 +84,7 @@ Container(
   child: MaterialButton(
     onPressed: () async{
         authHandler.signIn(_emailField.text, _passwordField.text).then((user){
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (route) => false).catchError((e) => setState((){
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomePage()), (route) => false).catchError((e) => setState((){
             error = e;
           }));
         } );

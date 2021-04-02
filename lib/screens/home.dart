@@ -1,8 +1,11 @@
+import 'package:detroo/screens/signup.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import 'package:flutter/material.dart';
 
 import 'allHouses.dart';
+import 'uploadhousepage.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -25,7 +28,7 @@ PageController _myPage = PageController(initialPage: 0);
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: [
-                IconButton(icon: Icon(Icons.home, color: currentPage == 0?Colors.purple: Colors.black),
+                IconButton(icon: Icon(Icons.home, color: currentPage == 0?Colors.purple[400]: Colors.black),
                  onPressed: (){
                    setState(() {
                                         _myPage.jumpToPage(0);
@@ -68,7 +71,14 @@ PageController _myPage = PageController(initialPage: 0);
             width: 55.0,
             child: FittedBox(
               child: FloatingActionButton(
-                onPressed:null,
+                onPressed: FirebaseAuth.instance.currentUser != null?
+                (){
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:(context) => UploadPage()), (route) => true);
+                }:
+                (){
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder:(context) => SignUpPage()), (route) => true);
+                }
+                ,
                 child: Icon(Icons.add_location_alt,
                 color:Colors.white,),
                 elevation: 3.0,

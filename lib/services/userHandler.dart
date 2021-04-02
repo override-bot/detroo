@@ -1,5 +1,6 @@
+// ignore: unused_import
 import 'dart:convert';
-
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/usermodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,14 +15,27 @@ Future<UserExtra> getUser() async{
     return Future<UserExtra>.value(null);
   }
 }
+Future<String> uploadImage(image) async{
+  String imageUri;
+  var storageReference = FirebaseStorage.instance
+      .ref()
+      .child('users/${user.uid}');
+    var  uploadTask = storageReference.putFile(image);
+    // ignore: await_only_futures
+    await uploadTask.whenComplete;
+      print('uploaded');
+      storageReference.getDownloadURL().then((fileURL){
+        imageUri = fileURL;
+      });
+      return imageUri;
+}
 Future uploadExtraDetail(username, userPhone, displayPicture) async {
-          List<int> displayPictureBytes = displayPicture.readAsBytesSync();
-          String displayPictureB64 = base64Encode(displayPictureBytes);
+        String displayPictureURL = await uploadImage(displayPicture);
     return FirebaseFirestore.instance.collection('users').doc(user.uid).set({
           "username": username,
           "userEmail": user.email,
           "userPhone": userPhone,
-          "displayPicture": displayPictureB64,
+          "displayPicture": displayPictureURL,
 
     });
 }

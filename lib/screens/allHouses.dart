@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../services/houseHandler.dart';
@@ -14,50 +14,55 @@ class AllHouses extends StatefulWidget{
 class _AllHousesState extends State<AllHouses>{
   @override
   Widget build(BuildContext context) {
-   return StreamBuilder<List<House>>(
-     stream: fetchHouses(),
-     builder: (context, AsyncSnapshot<List<House>> snapshot){
+      Query houses = FirebaseFirestore.instance.collection('houses');
+   return Scaffold(
+     appBar: AppBar(
+       elevation:1.0,
+       title: "Property List".text.bold.size(32).purple600.make(),
+        actions: [
+            IconButton(icon: Icon(Icons.search,color: Colors.purple[400]), onPressed:null)]
+    ),
+  
+  body:StreamBuilder<QuerySnapshot>(
+     stream: houses.snapshots(),
+     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
           if(snapshot.hasData){
-            var houses = snapshot.data;
-            return ListView.builder(
-              itemCount: houses != null? houses.length:0,
-              itemBuilder: (_, int index){
-                final House house = houses[index];
-                return Container(
-                  width: MediaQuery.of(context).size.width/1.1,
-                  child: GestureDetector(
-                    onTap: null,
-                    child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                           
-                            Image.memory(
-                              
-                              base64Decode(house.imageUrl),
-                              height: 100,
-                              width: 100,),
-                            Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  "#${house.price}".text.bold.purple600.size(20).make(),
-                                  "${house.location}".text.purple600.size(8).make()
-                                ],
-                              ),
-                            )
-                            
-                          ],
-                    ),
+           
+            return ListView(
+            
+                children: snapshot.data.docs.map((DocumentSnapshot document){
+
+return Container(
+  padding: EdgeInsets.only(top:10),
+  color: Colors.grey[200],
+                 width: 450,
+                  child:new ListTile(onTap: null,
+                  leading: Container(
+                    width: 150,
+            height: 150,
+            decoration: new BoxDecoration(
+               
+                image: new DecorationImage(
+                    fit: BoxFit.cover,
+                    image: new NetworkImage(
+                       document.data()['imageUrl'],)
+                )
+            )
                   ),
-                );
-              },
-            );
+                  
+                  title: "${document.data()['price']}".text.bold.size(30).purple900.make(),
+                  subtitle: "${document.data()['houseDescription']}\n${document.data()['location']}".text.gray800.size(25).make(),
+                )
+ );
+                }).toList()
+              );
           }
           else{
-            return CircularProgressIndicator();
+            return Center(
+              child:CircularProgressIndicator());
           }
      },
-   );
+   ));
   }
 
 }

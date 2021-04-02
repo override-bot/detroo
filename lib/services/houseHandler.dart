@@ -1,5 +1,5 @@
-import 'dart:convert';
-
+import 'package:path/path.dart' as Path;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/housemodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,8 +22,22 @@ Future<House> getHouseById(String houseId) async{
   else {
     return Future<House>.value(null);
   }
+
+}
+Future<String> uploadImage(image) async{
+ // String imageUri;
+  var storageReference = FirebaseStorage.instance
+      .ref()
+      .child('houses/${Path.basename(image.path)}');
+    var  uploadTask = storageReference.putFile(image);
+    // ignore: await_only_futures
+    await uploadTask.whenComplete;
+      print('uploaded');
+    String url = (await storageReference.getDownloadURL()).toString();
+   return url;
 }
 Future uploadHouse(imageUrl, houseDescription, furtherDescription, location, price) async{
+   String imageB64 = await uploadImage(imageUrl);
       final userInfo = await FirebaseFirestore
                               .instance
                               .collection('users')
@@ -34,8 +48,6 @@ Future uploadHouse(imageUrl, houseDescription, furtherDescription, location, pri
                         }
                         String agentName = data()['username'];
                         String agentNumber = data()['userPhone'];
-       List<int> imageBytes = imageUrl.readAsBytesSync();
-          String imageB64 = base64Encode(imageBytes);
                         return FirebaseFirestore.instance.collection('houses').add({
                           "agentName": agentName,
                           "imageUrl": imageB64,
