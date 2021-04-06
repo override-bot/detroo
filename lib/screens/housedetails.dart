@@ -35,14 +35,15 @@ Widget build(BuildContext context){
                 ),
               )),
             
-             preferredSize: Size.fromHeight(400)),
+             preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.4)),
              body: ListView(
                children: [
-                  "${data['houseDescription']}".text.bold.size(35).black.make(),
-                 "\$${data['price']}".text.size(30).black.make(),
+                  "${data['houseDescription']}".text.bold.size(24).black.make(),
+                 "#${data['price']}".text.size(20).black.make(),
                  Divider(),
-                   "Property Info".text.bold.size(25).black.make(),
+                   "Property Info".text.bold.size(20).black.make(),
                  Container(
+                   padding: EdgeInsets.only(top: 10),
                    width: MediaQuery.of(context).size.width/1.1,
                    child: Column(
                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -52,8 +53,8 @@ Widget build(BuildContext context){
                          child:Row(
                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                            children: [
-                              "Apartment for".text.bold.size(20).black.make(),
-                               "Sale".text.size(20).black.make(),
+                              "Apartment for".text.bold.size(15).black.make(),
+                               "Sale".text.size(15).black.make(),
                            ],
                          ) ,
                        ),
@@ -62,8 +63,8 @@ Widget build(BuildContext context){
                          child:Row(
                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                            children: [
-                              "Listed By".text.bold.size(20).black.make(),
-                               "${data['agentName']}".text.size(20).black.make(),
+                              "Listed By".text.bold.size(16).black.make(),
+                               "${data['agentName']}".text.size(16).black.make(),
                            ],
                          ) ,
                        ),
@@ -72,8 +73,8 @@ Widget build(BuildContext context){
                          child:Row(
                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                            children: [
-                              "Posted On".text.bold.size(20).black.make(),
-                               "${formatTime(data['addedAt'])}".text.size(20).black.make(),
+                              "Posted On".text.bold.size(16).black.make(),
+                               "${formatTime(data['addedAt'])}".text.size(16).black.make(),
                            ],
                          ) ,
                        ),
@@ -82,10 +83,11 @@ Widget build(BuildContext context){
                      ],
                    ),
                  ).p16(),
-                 "Description".text.bold.size(25).black.make(),
+                 "Description".text.bold.size(20).black.make().py12(),
                  Container(
+                   
                    width: MediaQuery.of(context).size.width,
-                   child:  "${data['furtherDescription']}".text.size(20).black.make(),
+                   child:  "${data['furtherDescription']}".text.size(16).black.make(),
                  )
 
 
@@ -96,14 +98,14 @@ Widget build(BuildContext context){
                Row(
                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                  children: [
-                   TextButton(onPressed: () => UrlLauncher.launch('tel://07089322045'), child: Container(
+                   TextButton(onPressed: () => UrlLauncher.launch('tel://${data['agentNumber']}'), child: Container(
                      color: Colors.purple,
                      
                      width: 120,
                      height: 50,
                      child: "Call us".text.bold.white.size(20).make().p16(),
                    )),
-                    TextButton(onPressed: () => UrlLauncher.launch('mailto:wisdomzilla13@gmail.com'), child: Container(
+                    TextButton(onPressed: () => UrlLauncher.launch('mailto:${data['useremail']}'), child: Container(
                      width: 120,
                      height: 50,
                      color: Colors.purple,

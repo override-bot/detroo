@@ -42,7 +42,7 @@ class _ExtraDetailsState extends State<ExtraDetails>{
           centerTitle: true,
           title: Text("Additional Userinfo"),
           actions: [
-            IconButton(icon: Icon(Icons.edit,color: Colors.white), onPressed: 
+            IconButton(icon: Icon(Icons.edit,color: Colors.purple), onPressed: 
             isUsername == true && isUserPhone == true && _image != null?
             ()async {
             uploadExtraDetail(_UsernameField.text, _UserPhoneField.text, _image).then((value) {

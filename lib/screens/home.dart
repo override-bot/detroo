@@ -1,4 +1,5 @@
 import 'package:detroo/screens/signup.dart';
+import 'package:detroo/screens/userInfo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -61,9 +62,7 @@ PageController _myPage = PageController(initialPage: 0);
                 color:Colors.grey.shade200,
                 child: "Coming Soon".text.size(20).make(),
               )),
-              Center(child:Container(
-                color:Colors.grey.shade200,
-              )),
+              FirebaseAuth.instance.currentUser != null? DashBoard() : SignUpPage()
             ],
           ),
           floatingActionButton: Container(

@@ -16,18 +16,18 @@ Future<UserExtra> getUser() async{
   }
 }
 Future<String> uploadImage(image) async{
-  String imageUri;
+  
   var storageReference = FirebaseStorage.instance
       .ref()
       .child('users/${user.uid}');
     var  uploadTask = storageReference.putFile(image);
     // ignore: await_only_futures
-    await uploadTask.whenComplete;
+   await uploadTask.whenComplete;
       print('uploaded');
-      storageReference.getDownloadURL().then((fileURL){
-        imageUri = fileURL;
-      });
-      return imageUri;
+    String url = (await storageReference.getDownloadURL()).toString();
+   return url;
+      
+     
 }
 Future uploadExtraDetail(username, userPhone, displayPicture) async {
         String displayPictureURL = await uploadImage(displayPicture);

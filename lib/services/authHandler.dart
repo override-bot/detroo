@@ -9,6 +9,7 @@ class Auth{
       final User user = userCredential.user;
       await user.reload();
       return user;
+      
    }
 Future<User> signIn(email, password) async {
   assert(password != null);

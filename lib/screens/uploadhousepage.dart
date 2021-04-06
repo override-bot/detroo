@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter/services.dart';
 import '../services/houseHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,7 +34,7 @@ class UploadPageState extends State<UploadPage>{
   @override
   Widget build(BuildContext context) {
   return Scaffold(
-    resizeToAvoidBottomInset: false ,
+   
     appBar: AppBar(
           actions: [
             IconButton(icon: Icon(Icons.edit,color: Colors.purple), onPressed: 
@@ -47,11 +47,14 @@ class UploadPageState extends State<UploadPage>{
             )
           ],
         ),
-    body: Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    body: VxBox(
+      child: Container(
+        
+      child: ListView(
+       
         children: [
           Container(
+          
                   height: 150,
                   width: 150,
                   decoration: BoxDecoration(
@@ -74,6 +77,7 @@ class UploadPageState extends State<UploadPage>{
                   )
                  ).p16(),
                   Container(width: MediaQuery.of(context).size.width/1.2,
+                  padding: EdgeInsets.only(top: 20),
                  child: TextFormField(
                    onChanged: (text){
                    setState(() {
@@ -93,6 +97,7 @@ class UploadPageState extends State<UploadPage>{
                  ),
                  )).p16(),
                     Container(width: MediaQuery.of(context).size.width/1.2,
+                    padding: EdgeInsets.only(top: 20),
                  child: TextFormField(
                    onChanged: (text){
                    setState(() {
@@ -113,6 +118,7 @@ class UploadPageState extends State<UploadPage>{
                  )).p16()
                  ,
                    Container(width: MediaQuery.of(context).size.width/1.2,
+                   padding: EdgeInsets.only(top: 20),
                  child: TextFormField(
                    onChanged: (text){
                    setState(() {
@@ -130,11 +136,17 @@ class UploadPageState extends State<UploadPage>{
                    controller: _priceField,
                  decoration: InputDecoration(
                    hintText: "5,000",
+                   
                    labelText: "Price",
                    errorText: isFDescription == false ? "Wrong format":null
                  ),
+                 keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+    FilteringTextInputFormatter.digitsOnly
+], 
                  )).p16(),
                    Container(width: MediaQuery.of(context).size.width/1.2,
+                   padding: EdgeInsets.only(top: 20),
                  child: TextFormField(
                    onChanged: (text){
                    setState(() {
@@ -155,9 +167,9 @@ class UploadPageState extends State<UploadPage>{
                  ),
                  )).p16()
         ],
-      ),
-    ),
-  );
+      
+      ),)).make()
+    );
   }
 
 }

@@ -47,8 +47,10 @@ Future uploadHouse(imageUrl, houseDescription, furtherDescription, location, pri
                           return data;
                         }
                         String agentName = data()['username'];
+                        String userEmail = data()['userEmail'];
                         String agentNumber = data()['userPhone'];
                         return FirebaseFirestore.instance.collection('houses').add({
+                          "agentId": user.uid,
                           "agentName": agentName,
                           "imageUrl": imageB64,
                           "houseDescription": houseDescription,
@@ -56,6 +58,7 @@ Future uploadHouse(imageUrl, houseDescription, furtherDescription, location, pri
                           "location": location,
                           "price": price,
                           "isSold": false,
+                          "useremail": userEmail,
                           "addedAt": DateTime.now(),
                           "agentNumber": agentNumber
                         });
